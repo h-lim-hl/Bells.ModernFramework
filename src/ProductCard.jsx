@@ -1,19 +1,19 @@
 import React from "react";
 
-const ProductCard = (props) => {
+const ProductCard = (prop) => {
   return (
     <div className="col mb-5">
       <div className="card h-100">
         {/*<!-- Product image--> */}
         <img
           className="card-img-top"
-          src={[props.imageUrl]}
-          alt={props.productName} />
+          src={prop.imageUrl}
+          alt={prop.productName} />
         {/*<!-- Product details-->*/}
         <div className="card-body p-4">
           <div className="text-center">
             {/*<!-- Product name-->*/}
-            <h5 className="fw-bolder">{prop.name}</h5>
+            <h5 className="fw-bolder">{prop.productName}</h5>
             {/*<!-- Product price-->*/}
             {prop.price}
           </div>
