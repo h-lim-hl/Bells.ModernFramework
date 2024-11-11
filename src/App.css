@@ -40,3 +40,12 @@
 .read-the-docs {
   color: #888;
 } */
+
+.header-background {
+  background-image: url("https://picsum.photos/1024/768");
+}
+
+.header-textarea-bg {
+  background-color: rgba(0,0,0, 0.7);
+  border-radius: 2px;
+}

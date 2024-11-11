@@ -1,9 +1,9 @@
 import React from "react";
 
-function OtherPage () {
+function About () {
   return (<>
     <h2>OTHER PAGE</h2>
   </>);
 }
 
-export default OtherPage;
+export default About;
