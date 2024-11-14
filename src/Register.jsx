@@ -1,64 +1,161 @@
-import React from "react";
+import React, { useState } from "react";
+import * as Yup from "yup";
+
 import Header from "./Header";
 
 // without formik
 function Register() {
-  // Name
-  // Email
-  // Contact No.
-  // Referer
-  // How they know of this site
+  const validationSchema = Yup.object({
+    name: Yup.string().required('Name is required'),
+    email: Yup.string().email('Invalid email address').required('Email is required'),
+    password: Yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+      .required('Confirm Password is required'),
+    salutation: Yup.string().required('Salutation is required'),
+    country: Yup.string().required('Country is required'),
+  });
+
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [salutation, setSalutation] = useState("");
+  const [country, setCountry] = useState("");
+  const [interests, setInterests] = useState([]);
+
+  const updateFullname = (evt) => {
+    setFullname(evt.target.value);
+  }
+
+  const updateEmail = (evt) => {
+    setEmail((prevValue) => evt.target.value);
+  }
+
+  const updatePassword = (evt) => {
+
+  }
+
   return (<>
-  <Header title="Join Us!" subtitle="Enjoy exclusive discounts and benefits!"/>
-  <div className="container mt-5">
-    <h1>Register</h1>
-    <form>
-      <div className="mb-3">
-        <label htmlFor="name" className="form-label">Name</label>
-        <input type="text" className="form-control" id="name" />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="email" className="form-label">Email</label>
-        <input type="email" className="form-control" id="email" />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="password" className="form-label">Password</label>
-        <input type="password" className="form-control" id="password" />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-        <input type="password" className="form-control" id="confirmPassword" />
-      </div>
-      <div className="mb-3">
-        <label className="form-label">Saluation</label>
-        <div>
-          <div className="form-check form-check-inline">
-            <input className="form-check-input" type="radio" name="salutation" id="mr" value="Mr" />
-            <label className="form-check-label" htmlFor="mr">Mr</label>
-          </div>
-          <div className="form-check form-checl-inline">
-            <input className="form-check-input" type="radio" name="salutation" id="ms" value="Ms" />
-            <label className="form-check-label" htmlFor="ms">Ms</label>
-          </div>
-          <div className="form-check form-check-inline">
-            <input className="form-check-input" type="radio" name="salutation" id="mrs" value="Mrs" />
-            <label className="form-check-label" htmlFor="mrs">Mrs</label>
-          </div>
+    <Header title="Join Us!" subtitle="Enjoy exclusive discounts and benefits!" />
+    <div className="container mt-5">
+      <h1>Register</h1>
+      <form>
+        <div className="mb-3">
+          <label htmlFor="name" className="form-label">Name</label>
+          <input
+            type="text"
+            className="form-control"
+            id="name"
+            placeholder="Please enter your fullname."
+            value={fullname}
+            onChange={updateFullname} />
         </div>
         <div className="mb-3">
-          <label htmlFor="country" className="form-label">Country</label>
-          <select className="form-select" id="country">
-            <option value="">Select Country</option>
-            <option value="sg">Singapore</option>
-            <option value="my">Malaysia</option>
-            <option value="in">Indonesia</option>
-            <option value="th">Thailand</option>
-          </select>
+          <label htmlFor="email" className="form-label">Email</label>
+          <input type="email" className="form-control" id="email" />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="password" className="form-label">Password</label>
+          <input type="password" className="form-control" id="password" />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
+          <input type="password" className="form-control" id="confirmPassword" />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Saluation</label>
+          <div>
+            <div className="form-check form-check-inline">
+              <input className="form-check-input" type="radio" name="salutation" id="mr" value="Mr" />
+              <label className="form-check-label" htmlFor="mr">Mr</label>
+            </div>
+            <div className="form-check form-checl-inline">
+              <input className="form-check-input" type="radio" name="salutation" id="ms" value="Ms" />
+              <label className="form-check-label" htmlFor="ms">Ms</label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input className="form-check-input" type="radio" name="salutation" id="mrs" value="Mrs" />
+              <label className="form-check-label" htmlFor="mrs">Mrs</label>
+            </div>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="country" className="form-label">Country</label>
+            <select className="form-select" id="country">
+              <option value="">Select Country</option>
+              <option value="sg">Singapore</option>
+              <option value="my">Malaysia</option>
+              <option value="in">Indonesia</option>
+              <option value="th">Thailand</option>
+            </select>
+          </div>
+          <div className="mb-3s">
+            <div className="form-check">
+              <label>Interests (choose more than one)</label>
+              <input
+                className="form-check-input"
+                type="checkbox"
+                name="interests"
+                value="netflix"
+                id="interests-netflix"
+                onChange={() => { }}
+                checked={() => { }}
+              />
+              <label
+                className="form-check-label"
+                htmlFor="interests-netflix"
+              >Netflix and Chill</label>
+            </div>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                name="interests"
+                value="sleeping"
+                id="interests-sleeping"
+                onChange={() => { }}
+                checked={() => { }}
+              />
+              <label
+                className="form-check-label"
+                htmlFor="interests-sleeping"
+              >Sleeping</label>
+            </div>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                name="interests"
+                value="cycling"
+                id="interests-cycling"
+                onChange={() => { }}
+                checked={() => { }}
+              />
+              <label
+                className="form-check-label"
+                htmlFor="interests-cycling"
+              >Cycling</label>
+            </div>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                name="interests"
+                value="others"
+                id="interests-others"
+                onChange={() => { }}
+                checked={() => { }}
+              />
+            <label
+              className="form-check-label"
+              htmlFor="interests-others"
+            >Others</label>
+          </div>
         </div>
         <button type="submit" className="btn btn-primary">Register</button>
-      </div>
-    </form>
-  </div>
+    </div>
+  </form >
+    </div >
   </>);
 }
 
