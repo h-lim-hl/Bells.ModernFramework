@@ -1,10 +1,47 @@
 import React, { useState } from "react";
 import * as Yup from "yup";
+import axios from "axios";
 
 import Header from "./Header";
 
 // without formik
 function Register() {
+  const [formValues, setFormValues] = useState({
+    fullname: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    salutation: "",
+    interests: []
+  });
+
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (evt) => {
+    const { name, value } = evt.target;
+    if (typeof formValues[name] === typeof []) {
+      const checked = evt.target.checked;
+      let clone = [];
+      if (checked) {
+        cloned = [...formValues.interests, value];
+      } else {
+        const indexToRemove =
+          formValues.interests.indexOf(current => current === value);
+        clone = [...formValues.slice(0, indexToRemove),
+        ...formValues.slice(indexToRemove + 1)];
+      }
+      setFormValues({
+        ...formValues,
+        [name]: clone
+      });
+    } else {
+      setFormValues({
+        ...formValues,
+        [name]: value
+      });
+    }
+  };
+
   const validationSchema = Yup.object({
     name: Yup.string().required('Name is required'),
     email: Yup.string().email('Invalid email address').required('Email is required'),
@@ -16,72 +53,129 @@ function Register() {
     country: Yup.string().required('Country is required'),
   });
 
-  const [fullname, setFullname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [salutation, setSalutation] = useState("");
-  const [country, setCountry] = useState("");
-  const [interests, setInterests] = useState([]);
+  const validate = async () => {
+    try {
+      await validationSchema.validate(formValues, { aboutEarly: false });
+      setErrors({});
+      return true;
+    } catch (err) {
+      const validationErrors = {};
+      err.inner.forEach((error) => {
+        validationErrors[error.path] = error.message;
+      });
+      setErrors(validationErrors);
+      return false;
+    }
+  };
 
-  const updateFullname = (evt) => {
-    setFullname(evt.target.value);
+  const handleSubmit = async (evt) => {
+    evt.preventDefault();
+    const inValid = await validate();
+    if (isValid) {
+      try {
+        const response = await axios.post("/register", formValues);
+        console.log('Form submitted successfully:', response.data);
+      } catch (error) {
+        console.error('Error submitting form:', error.response?.data || error.message);
+      }
+    }
   }
 
-  const updateEmail = (evt) => {
-    setEmail((prevValue) => evt.target.value);
-  }
-
-  const updatePassword = (evt) => {
-
-  }
 
   return (<>
     <Header title="Join Us!" subtitle="Enjoy exclusive discounts and benefits!" />
     <div className="container mt-5">
       <h1>Register</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">Name</label>
           <input
             type="text"
             className="form-control"
-            id="name"
+            id="fullname"
             placeholder="Please enter your fullname."
-            value={fullname}
-            onChange={updateFullname} />
+            value={formValues.fullname}
+            onChange={handleChange} />
         </div>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">Email</label>
-          <input type="email" className="form-control" id="email" />
+          <input
+            type="email"
+            className="form-control"
+            id="email"
+            placeholder="youremail@domin.com"
+            value={formValues.email}
+            onChange={handleChange}
+          />
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">Password</label>
-          <input type="password" className="form-control" id="password" />
+          <input
+            type="password"
+            className="form-control"
+            id="password"
+            value={formValues.password}
+            onChange={handleChange}
+          />
         </div>
         <div className="mb-3">
           <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-          <input type="password" className="form-control" id="confirmPassword" />
+          <input
+            type="password"
+            className="form-control"
+            id="confirmPassword"
+            value={formValues.confirmPassword}
+            onChange={handleChange}
+          />
         </div>
         <div className="mb-3">
           <label className="form-label">Saluation</label>
           <div>
             <div className="form-check form-check-inline">
-              <input className="form-check-input" type="radio" name="salutation" id="mr" value="Mr" />
+              <input
+                className="form-check-input"
+                type="radio"
+                name="salutation"
+                id="mr"
+                value="Mr"
+                onChange={handleChange}
+                checked={formValues.salutation === "Mr"}
+              />
               <label className="form-check-label" htmlFor="mr">Mr</label>
             </div>
             <div className="form-check form-checl-inline">
-              <input className="form-check-input" type="radio" name="salutation" id="ms" value="Ms" />
+              <input
+                className="form-check-input"
+                type="radio"
+                name="salutation"
+                id="ms"
+                value="Ms"
+                onChange={handleChange}
+                checked={formValues.salutation === "Ms"}
+              />
               <label className="form-check-label" htmlFor="ms">Ms</label>
             </div>
             <div className="form-check form-check-inline">
-              <input className="form-check-input" type="radio" name="salutation" id="mrs" value="Mrs" />
+              <input
+                className="form-check-input"
+                type="radio"
+                name="salutation"
+                id="mrs"
+                value="Mrs"
+                onChange={handleChange}
+                checked={formValues.salutation === "Mrs"}
+              />
               <label className="form-check-label" htmlFor="mrs">Mrs</label>
             </div>
           </div>
           <div className="mb-3">
             <label htmlFor="country" className="form-label">Country</label>
-            <select className="form-select" id="country">
+            <select
+              className="form-select"
+              id="country"
+              value={formValues.country}
+              onChange={handleChange}
+            >
               <option value="">Select Country</option>
               <option value="sg">Singapore</option>
               <option value="my">Malaysia</option>
@@ -98,8 +192,8 @@ function Register() {
                 name="interests"
                 value="netflix"
                 id="interests-netflix"
-                onChange={() => { }}
-                checked={() => { }}
+                onChange={handleChange}
+                checked={formValues.interests.includes("netflix")}
               />
               <label
                 className="form-check-label"
@@ -113,8 +207,8 @@ function Register() {
                 name="interests"
                 value="sleeping"
                 id="interests-sleeping"
-                onChange={() => { }}
-                checked={() => { }}
+                onChange={handleChange}
+                checked={formValues.interests.includes("sleeping")}
               />
               <label
                 className="form-check-label"
@@ -128,8 +222,8 @@ function Register() {
                 name="interests"
                 value="cycling"
                 id="interests-cycling"
-                onChange={() => { }}
-                checked={() => { }}
+                onChange={handleChange}
+                checked={formValues.interests.includes("cycling")}
               />
               <label
                 className="form-check-label"
@@ -143,18 +237,18 @@ function Register() {
                 name="interests"
                 value="others"
                 id="interests-others"
-                onChange={() => { }}
-                checked={() => { }}
+                onChange={handleChange}
+                checked={formValues.interests.includes("others")}
               />
-            <label
-              className="form-check-label"
-              htmlFor="interests-others"
-            >Others</label>
+              <label
+                className="form-check-label"
+                htmlFor="interests-others"
+              >Others</label>
+            </div>
           </div>
+          <button type="submit" className="btn btn-primary">Register</button>
         </div>
-        <button type="submit" className="btn btn-primary">Register</button>
-    </div>
-  </form >
+      </form >
     </div >
   </>);
 }
