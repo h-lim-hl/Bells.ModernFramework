@@ -1,16 +1,36 @@
+import {Route, Switch} from 'wouter';
+import { useFlashMessage } from './FlashMessageStore';
+
 import Navbar from './Navbar';
 import Footer from './Footer';
 import Home from './Home';
 import Register from './Register';
 import About from './About';
-import {Route, Switch} from 'wouter';
+
 import './App.css'
 import './styles.css'
 
 function App() {
+  const {clearMessage, getMessage} = useFlashMessage();
+  const flashMessage = getMessage();
+
+  useEffect(() => {
+    const timer = setTimeout(()=>{
+      clearMessage();
+    }, 3000);
+
+    return () => clearTimer(timer);
+  }, [flashMessage]);
+
   return (
     <>
       <Navbar />
+      { 
+        flashMessage.message &&
+          (<div className={`alert alert-${flashMessage.type} text-center flash-alert`}>
+            {flashMessage.message}
+          </div>)
+      }
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/register" component={Register} />
