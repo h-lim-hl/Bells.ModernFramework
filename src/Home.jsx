@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Header from "./Header";
 import ProductCard from "./ProductCard";
 import RatedSaleProductCard from "./RatedSaleProductCard";
@@ -6,33 +7,43 @@ import SaleProductCard from "./SaleProductCard";
 import PopularProductCard from "./PopularProductCard";
 
 function Home() {
-  return (<>
-    <Header title="Shop in style!" subtitle="Exciting products just for you!"/>
-    <section className="py-5">
-    <div className="container px-4 px-lg-5 mt-5">
-        <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      try {
+        const response = await axios.get("/sampleProducts.json");
+        setFeaturedProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching featured products:", error)
+      }
+    };
+    fetchFeaturedProducts();
+  }, []);
+
+  const renderFeaturedProducts = () => {
+    const productElements = [];
+    for(const product of featuredProducts) {
+      productElements.push(
+        <div key={product.id} className="col-md-3 mb-4">
           <ProductCard
-            imageUrl="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
-            productName="Fancy Product"
-            price="$40.00 - $80.00"
+            id={product.id}
+            imageUrl={product.imageUrl}
+            productName={product.productName}
+            price={product.price.toFixed(2)}
           />
-          <RatedSaleProductCard
-            imageUrl="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
-            productName="Special Product"
-            price="$20.00"
-            salePrice="$18.00"
-          />
-          <SaleProductCard
-            imageUrl="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
-            productName="Sale Product"
-            price="$50.00"
-            salePrice="$20.00"
-          />
-          <PopularProductCard
-            imageUrl="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
-            productName="Popular Item"
-            price="$40.00"
-          />
+        </div>
+      )
+    }
+    return productElements;
+  };
+
+  return (<>
+    <Header title="Shop in style!" subtitle="Exciting products just for you!" />
+    <section className="py-5">
+      <div className="container px-4 px-lg-5 mt-5">
+        <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+          {renderFeaturedProducts()}
         </div>
       </div>
     </section >
