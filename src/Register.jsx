@@ -20,15 +20,14 @@ function Register() {
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     if (typeof formValues[name] === typeof []) {
-      const checked = evt.target.checked;
       let clone = [];
-      if (checked) {
-        cloned = [...formValues.interests, value];
+      if (!formValues[name].includes(value)) {
+        clone = [...formValues.interests, value];
       } else {
         const indexToRemove =
-          formValues.interests.indexOf(current => current === value);
-        clone = [...formValues.slice(0, indexToRemove),
-        ...formValues.slice(indexToRemove + 1)];
+          formValues.interests.indexOf(value);
+        clone = [...formValues.interests.slice(0, indexToRemove),
+        ...formValues.interests.slice(indexToRemove + 1)];
       }
       setFormValues({
         ...formValues,
@@ -43,14 +42,26 @@ function Register() {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required('Name is required'),
-    email: Yup.string().email('Invalid email address').required('Email is required'),
-    password: Yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
+    fullname: Yup.string()
+             .required('Name is required'),
+
+    email: Yup.string()
+              .email('Invalid email address')
+              .required('Email is required'),
+              
+    password: Yup.string()
+                 .min(8, 'Password must be at least 8 characters')
+                 .required('Password is required'),
+
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
-      .required('Confirm Password is required'),
-    salutation: Yup.string().required('Salutation is required'),
-    country: Yup.string().required('Country is required'),
+                        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+                        .required('Confirm Password is required'),
+
+    salutation: Yup.string()
+                   .required('Salutation is required'),
+
+    country: Yup.string()
+                .required('Country is required'),
   });
 
   const validate = async () => {
@@ -59,6 +70,7 @@ function Register() {
       setErrors({});
       return true;
     } catch (err) {
+      console.log(err.message);
       const validationErrors = {};
       err.inner.forEach((error) => {
         validationErrors[error.path] = error.message;
@@ -69,16 +81,19 @@ function Register() {
   };
 
   const handleSubmit = async (evt) => {
+    console.log("submit");
     evt.preventDefault();
-    const inValid = await validate();
+    const isValid = await validate();
     if (isValid) {
       try {
-        const response = await axios.post("/register", formValues);
-        console.log('Form submitted successfully:', response.data);
+        //const response = await axios.post("/register", formValues);
+        //console.log('Form submitted successfully:', response.data);
+        console.log('Form submitted successfully:', formValues);
       } catch (error) {
         console.error('Error submitting form:', error.response?.data || error.message);
       }
     }
+    console.log("submit end");
   }
 
 
@@ -88,10 +103,11 @@ function Register() {
       <h1>Register</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="name" className="form-label">Name</label>
+          <label htmlFor="fullname" className="form-label">Name</label>
           <input
             type="text"
             className="form-control"
+            name="fullname"
             id="fullname"
             placeholder="Please enter your fullname."
             value={formValues.fullname}
@@ -102,6 +118,7 @@ function Register() {
           <input
             type="email"
             className="form-control"
+            name="email"
             id="email"
             placeholder="youremail@domin.com"
             value={formValues.email}
@@ -113,6 +130,7 @@ function Register() {
           <input
             type="password"
             className="form-control"
+            name="password"
             id="password"
             value={formValues.password}
             onChange={handleChange}
@@ -123,6 +141,7 @@ function Register() {
           <input
             type="password"
             className="form-control"
+            name="confirmPassword"
             id="confirmPassword"
             value={formValues.confirmPassword}
             onChange={handleChange}
@@ -173,6 +192,7 @@ function Register() {
             <select
               className="form-select"
               id="country"
+              name="country"
               value={formValues.country}
               onChange={handleChange}
             >
@@ -184,8 +204,8 @@ function Register() {
             </select>
           </div>
           <div className="mb-3s">
+            <label className="form-label">Interests (choose more than one)</label>
             <div className="form-check">
-              <label>Interests (choose more than one)</label>
               <input
                 className="form-check-input"
                 type="checkbox"
