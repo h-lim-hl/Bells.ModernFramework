@@ -6,23 +6,22 @@ export const flashMassageAtom = atom({
 });
 
 export const useFlashMessage = () => {
-  const [flashMessage, setFlashMessage] = useAtom(flashMessageAtom);
+  const [flashMessage, setFlashMessage] = useAtom(flashMassageAtom);
 
   const showMessage = (message, type) => {
     setFlashMessage({
-      "message" : message,
-      "type" : type
+      "message": message,
+      "type": type
     });
   }
 
   const clearMessage = () => {
     setFlashMessage({
-    "message" : "",
-    "type" : "info"
-  });
+      "message": "",
+      "type": "info"
+    });
+  };
 
   const getMessage = () => flashMessage;
-
-  return {showMessage, clearMessage, getMessage};
-  };
+  return { showMessage, clearMessage, getMessage };
 };

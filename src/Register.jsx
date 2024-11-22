@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import * as Yup from "yup";
-import { useLocation } from "wouter";
+import { useLocation  } from "wouter";
+
 import { useFlashMessage } from "./FlashMessageStore";
 import Header from "./Header";
 
@@ -9,7 +10,7 @@ import Header from "./Header";
 function Register() {
   const { showMessage, clearMessage, getMessage } = useFlashMessage();
 
-  const [location, useLocation] = useLocation();
+  const [location, setLocation] = useLocation();
 
   const [formValues, setFormValues] = useState({
     fullname: "",
