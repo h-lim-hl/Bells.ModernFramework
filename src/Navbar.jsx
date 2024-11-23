@@ -27,6 +27,11 @@ function Navbar() {
                 <li><a className="dropdown-item" href="#!">Popular Items</a></li>
                 <li><a className="dropdown-item" href="#!">New Arrivals</a></li>
               </ul>
+            <li className="nav-item">
+              <Link href="/cart" className={`nav-link ${location === "/cart" ? "active" : ""}`}>
+                Cart
+              </Link>
+            </li>
             </li>
           </ul>
           <a type="button" className="btn btn-outline-dark" href="/cart">

@@ -2,33 +2,7 @@ import { atom, useAtom } from "jotai";
 import Immutable  from "seamless-immutable";
 
 const shoppingCart = Immutable ([
-  {
-    "id": 1,
-    "product_id": 1,
-    "quantity": 10,
-    "productName": "Organic Green Tea",
-    "price": 12.99,
-    "imageUrl": "https://picsum.photos/id/225/300/200",
-    "description": "Premium organic green tea leaves, rich in antioxidants and offering a smooth, refreshing taste."
-  },
-  {
-    "id": 2,
-    "product_id": 1111,
-    "quantity": 10,
-    "productName": "Organic Black Tea",
-    "price": 12.99,
-    "imageUrl": "https://picsum.photos/id/225/300/200",
-    "description": "Premium organic green tea leaves, rich in antioxidants and offering a smooth, refreshing taste."
-  },
-  {
-    "id": 3,
-    "product_id": 11555,
-    "quantity": 10,
-    "productName": "Organic White Tea",
-    "price": 12.99,
-    "imageUrl": "https://picsum.photos/id/225/300/200",
-    "description": "Premium organic green tea leaves, rich in antioxidants and offering a smooth, refreshing taste."
-  }
+  
 ]);
 
 export const cartAtom = atom(shoppingCart);
@@ -90,5 +64,9 @@ export const useCart = () => {
     });
   };
 
-  return { getCart, getCartTotal, addToCart, modifyCart, deleteCartItem };
+  const setCartContent = (content) => {
+    setCart(Immutable(content));
+  };
+
+  return { getCart, getCartTotal, addToCart, modifyCart, deleteCartItem, setCartContent};
 };

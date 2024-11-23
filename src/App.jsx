@@ -7,7 +7,7 @@ import Footer from './Footer';
 import Home from './Home';
 import Register from './Register';
 import About from './About';
-import ShoppingCart from './ShoppingCart';
+// import ShoppingCart from './ShoppingCart';
 
 import './App.css'
 import './styles.css'
@@ -37,7 +37,8 @@ function App() {
         <Route path="/" component={Home} />
         <Route path="/register" component={Register} />
         <Route path="/about" component={About} />
-        <Route path="/cart" component={ShoppingCart} />
+        {/* <Route path="/cart" component={ShoppingCart} /> */}
+        {/* <Route path="/cart" component={UserLogin} /> */}
       </Switch>
       <Footer />
     </>

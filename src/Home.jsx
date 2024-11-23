@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "./Header";
-import ProductCard from "./ProductCard";
+import ProductCard from "./ProductCard";  
 import RatedSaleProductCard from "./RatedSaleProductCard";
 import SaleProductCard from "./SaleProductCard";
 import PopularProductCard from "./PopularProductCard";

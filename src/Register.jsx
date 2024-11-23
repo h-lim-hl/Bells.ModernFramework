@@ -114,6 +114,8 @@ function Register() {
       try {
         //const response = await axios.post("/register", formValues);
         //console.log('Form submitted successfully:', response.data);
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/users/register`, formValues);
         setTimeout(() => {
           showMessage("Registration successfull", "success");
           console.log('Form submitted successfully:', formValues);
@@ -128,7 +130,6 @@ function Register() {
       }
     }
   }
-
 
   return (<>
     <Header title="Join Us!" subtitle="Enjoy exclusive discounts and benefits!" />
