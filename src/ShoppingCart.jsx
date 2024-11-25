@@ -25,7 +25,7 @@ const ShoppingCart = () => {
 
   useEffect(()=>{
     fetchCart();
-    return ()=>{console.log("cleanup");}
+    return ()=>{/*console.log("cleanup")*/;}
   }, []);
 
   const updateCart = async ()=>{
