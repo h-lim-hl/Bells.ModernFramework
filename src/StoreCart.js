@@ -68,5 +68,12 @@ export const useCart = () => {
     setCart(Immutable(content));
   };
 
-  return { getCart, getCartTotal, addToCart, modifyCart, deleteCartItem, setCartContent};
+  return { 
+    cart,
+    getCart,
+    getCartTotal,
+    addToCart,
+    modifyCart,
+    deleteCartItem,
+    setCartContent};
 };

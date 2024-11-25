@@ -24,7 +24,7 @@ function UserLogin() {
   const handleSubmit = async (val, act) => {
     try {
       const response = await axios.post(import.meta.env.VITE_API_URL +
-        "/api/users/login");
+        "/api/users/login", val);
       console.log("login successful", response.data);
       setJwt(response.data.token);
       act.setSubmitting(false);

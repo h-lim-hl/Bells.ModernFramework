@@ -5,8 +5,8 @@ import axios from "axios";
 
 
 const ShoppingCart = () => {
-  const { cart, getCartTotal, modifyCart, deleteCartItem } = useCart();
-  const { getjwt } = useJwt();
+  const { cart, getCartTotal, modifyCart, deleteCartItem, setCartContent } = useCart();
+  const { getJwt } = useJwt();
   const [isUpdating, setIsUpdating] = useState(false);
   const isFirstRender = useRef(true);
 
@@ -18,6 +18,7 @@ const ShoppingCart = () => {
         { headers: { Authorization: `Bearer ${jwt}` } }
       );
       console.log("Cart: ", response.data);
+      setCartContent(res.data);
     } catch (err) {
       console.error("Error fetching cart: ", err);
     }
@@ -39,9 +40,13 @@ const ShoppingCart = () => {
 
       await axios.put(import.meta.env.VITE_API_URL +"/api/cart",
         {cartItems: updatedCart }, { headers: { Authorization: `Bearer ${jwt}`} }
-      )
+      );
+    } catch (err) {
+      console.error("Error updating cart: ", err);
+    } finally {
+      setUpdating(false);
     }
-  }
+  };
 
   return (<>
     <div className="container mt-4">
@@ -53,8 +58,8 @@ const ShoppingCart = () => {
               <li key={item.id}
                 className="list-group-item d-flex justify-content-between align-item-center">
                 <div>
+                  <img src={item.imageUrl} alt={item.productName} className="cart-image" />
                   <h5>{item.productName}</h5>
-                  <img src={item.imageUrl} />
                   <div className="d-flex align-items-center mt-2">
                     <input type="button"
                       className="btn btn-sm btn-secondary me-2"
@@ -62,6 +67,7 @@ const ShoppingCart = () => {
                       onClick={() => {
                         modifyCart(item.product_id, item.quantity - 1)
                       }}
+                      disabled={isUpdating}
                     />
                     <p className="mb-0">Quantity: {item.quantity}</p>
                     <input type="button"
@@ -70,12 +76,14 @@ const ShoppingCart = () => {
                       onClick={() => {
                         modifyCart(item.product_id, item.quantity + 1)
                       }}
+                      disabled={isUpdating}
                     />
                     <button className="btn btn-sm btn-danger ms-2"
                       onClick={() => {
                         deleteCartItem(item.product_id)
                       }}
-                    >Delete</button>
+                      disabled={isUpdating}
+                    >Remove</button>
                   </div>
                   <span>${(item.price * item.quantity).toFixed(2)}</span>
                 </div>
@@ -86,7 +94,7 @@ const ShoppingCart = () => {
       </>)
       }
       <div className="mt-3 text-end">
-        <h4>Total: ${getCartTotal().toFixed(2)}</h4>
+        <h4>Total: ${getCartTotal()}</h4>
       </div>
     </div>
   </>)
