@@ -1,8 +1,19 @@
 import React from "react";
 import { useCart } from "./StoreCart"
+import { useLocation } from "wouter";
+import {useFlashMessage} from "./FlashMessageStore";
 
 const ProductCard = (prop) => {
   const { addToCart } = useCart();
+  const [, setLocation] = useLocation();
+  const { showMessage } = useFlashMessage();
+
+  const handleAddToCart = () => {
+    addToCart(prop);
+    showMessage("Item added to cart", "success");
+    setLocation("/cart");
+  };
+
   return (
     <div className="col mb-5">
       <div className="card h-100">
@@ -25,7 +36,7 @@ const ProductCard = (prop) => {
           <div className="text-center">
             <a className="btn btn-outline-dark mt-auto"
               href="#"
-              onClick={() => { addToCart(props) }}>
+              onClick={()=>{addToCart(prop)}}>
               Add to Cart
             </a>
           </div>

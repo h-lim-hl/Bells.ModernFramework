@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import * as Yup from "yup";
-import { useLocation  } from "wouter";
+import { useLocation } from "wouter";
 
 import { useFlashMessage } from "./FlashMessageStore";
 import Header from "./Header";
@@ -112,15 +112,11 @@ function Register() {
     const isValid = await validate();
     if (isValid) {
       try {
-        //const response = await axios.post("/register", formValues);
-        //console.log('Form submitted successfully:', response.data);
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/api/users/register`, formValues);
-        setTimeout(() => {
-          showMessage("Registration successfull", "success");
-          console.log('Form submitted successfully:', formValues);
-          setLocation("/");
-        }, 1000);
+        showMessage("Registration successfull", "success");
+        console.log('Form submitted successful    ly:', formValues);
+        setLocation("/");
       } catch (error) {
         showMessage(`Error while registering: ${error.response?.data || error.message}`, "danger")
         // console.error('Error submitting form:', error.response?.data || error.message);

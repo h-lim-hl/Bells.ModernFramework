@@ -15,15 +15,17 @@ import './styles.css'
 
 function App() {
   const { clearMessage, getMessage } = useFlashMessage();
-  const flashMessage = useMemo(()=> getMessage(), [getMessage()]);
+  const flashMessage = getMessage();
 
   useEffect(() => {
+    if(flashMessage) {
     const timer = setTimeout(() => {
       console.log("timer");
       clearMessage();
     }, 3000);
 
     return () => clearTimeout(timer);
+    }
   }, [flashMessage]);
 
   return (

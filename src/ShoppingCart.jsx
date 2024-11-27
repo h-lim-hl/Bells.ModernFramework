@@ -10,6 +10,7 @@ const ShoppingCart = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const isFirstRender = useRef(true);
 
+  //console.log(cart);
   const fetchCart = async ()=> {
     const jwt = getJwt();
     try {
@@ -18,7 +19,7 @@ const ShoppingCart = () => {
         { headers: { Authorization: `Bearer ${jwt}` } }
       );
       console.log("Cart: ", response.data);
-      setCartContent(res.data);
+      setCartContent(response.data);
     } catch (err) {
       console.error("Error fetching cart: ", err);
     }

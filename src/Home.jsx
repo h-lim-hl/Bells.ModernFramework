@@ -31,6 +31,7 @@ function Home() {
             imageUrl={product.image}
             productName={product.name}
             price={product.price}
+            product_id={product.id}
           />
         </div>
       )
