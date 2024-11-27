@@ -19,7 +19,8 @@ function Navbar() {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
             <li className="nav-item"><Link className={`nav-link ${location === "/register" ? "active" : ""}`} aria-current="page" href="/register">Register</Link></li>
             <li className="nav-item"><Link className={`nav-link ${location === "/about" ? "active" : ""}`} href="/abort">About</Link></li>
-            <li className="nav-item dropdown" onClick={toggleShopDropdown}>
+            <li className="nav-item"><Link className={`nav-link ${location === "/about" ? "active" : ""}`} href="/login">Login</Link></li>
+            {/* <li className="nav-item dropdown" onClick={toggleShopDropdown}>
               <a className={`nav-link dropdown-toggle ${isShopDropdownShowing ? "show" : ""}`} id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded={isShopDropdownShowing ? "true" : "false"}>Shop</a>
               <ul className={`dropdown-menu ${isShopDropdownShowing ? "show" : ""}`} aria-labelledby="navbarDropdown">
                 <li><a className="dropdown-item" href="#!">All Products</a></li>
@@ -27,12 +28,12 @@ function Navbar() {
                 <li><a className="dropdown-item" href="#!">Popular Items</a></li>
                 <li><a className="dropdown-item" href="#!">New Arrivals</a></li>
               </ul>
+            </li>
             <li className="nav-item">
               <Link href="/cart" className={`nav-link ${location === "/cart" ? "active" : ""}`}>
                 Cart
               </Link>
-            </li>
-            </li>
+            </li> */}
           </ul>
           <a type="button" className="btn btn-outline-dark" href="/cart">
             <i className="bi-cart-fill me-1"></i>

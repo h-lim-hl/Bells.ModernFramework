@@ -12,7 +12,7 @@ function Home() {
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
       try {
-        const response = await axios.get("/sampleProducts.json");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
         setFeaturedProducts(response.data);
       } catch (error) {
         console.error("Error fetching featured products:", error)
@@ -28,9 +28,9 @@ function Home() {
         <div key={product.id} className="col-md-3 mb-4">
           <ProductCard
             id={product.id}
-            imageUrl={product.imageUrl}
-            productName={product.productName}
-            price={product.price.toFixed(2)}
+            imageUrl={product.image}
+            productName={product.name}
+            price={product.price}
           />
         </div>
       )

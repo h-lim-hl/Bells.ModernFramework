@@ -1,9 +1,9 @@
-import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import axios from "axios";
-import { useLocation } from "wouter";
-import { useFlashMessage } from "./FlashMessageStore";
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+import { useLocation } from 'wouter';
+import { useFlashMessage } from './FlashMessageStore';
 import { useJwt } from "./UserStore";
 
 function UserLogin() {
@@ -12,33 +12,32 @@ function UserLogin() {
   const { setJwt } = useJwt();
 
   const initialValues = {
-    email: "",
-    password: ""
-  }
+    email: '',
+    password: ''
+  };
 
   const validationSchema = Yup.object({
-    email: Yup.string().email("Invalid email address").required("Required"),
-    password: Yup.string().required("Required")
+    email: Yup.string().email('Invalid email address').required('Required'),
+    password: Yup.string().required('Required')
   });
 
-  const handleSubmit = async (val, act) => {
+  const handleSubmit = async (values, actions) => {
     try {
-      const response = await axios.post(import.meta.env.VITE_API_URL +
-        "/api/users/login", val);
-      console.log("login successful", response.data);
+      const response = await axios.post(import.meta.env.VITE_API_URL + '/api/users/login', values);
+      console.log('Login successful:', response.data);
       setJwt(response.data.token);
-      act.setSubmitting(false);
-      showMessage("Login successful!", "success");
-      setLocation("/");
-    } catch (err) {
-      console.error("Login error: ", err);
-      act.setErrors({ submit: err.response.data.message });
-      act.setSubmitting(false);
+      actions.setSubmitting(false);
+      showMessage('Login successful!', 'success');
+      setLocation('/');
+    } catch (error) {
+      console.error('Login error:', error);
+      actions.setErrors({ submit: error.response.data.message });
+      actions.setSubmitting(false);
     }
   };
 
-  return (<>
-    <div>
+  return (
+    <div className="container mt-5">
       <h2>Login</h2>
       <Formik
         initialValues={initialValues}
@@ -46,7 +45,7 @@ function UserLogin() {
         onSubmit={handleSubmit}
       >
         {function (formik) {
-          return (<>
+          return (
             <Form>
               <div className="mb-3">
                 <label htmlFor="email" className="form-label">Email</label>
@@ -60,19 +59,17 @@ function UserLogin() {
                 <ErrorMessage name="password" component="div" className="text-danger" />
               </div>
 
-              {formik.error.submit && <div className="alert alert-danger">{formik.errors.submit}</div>}
+              {formik.errors.submit && <div className="alert alert-danger">{formik.errors.submit}</div>}
 
               <button type="submit" className="btn btn-primary" disabled={formik.isSubmitting}>
-                {formik.isSubmitting ? "Loggin in..." : "login"}
+                {formik.isSubmitting ? 'Logging in...' : 'Login'}
               </button>
-
             </Form>
-          </>)
+          );
         }}
       </Formik>
-
     </div>
-  </>)
+  );
 }
 
 export default UserLogin;

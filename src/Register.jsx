@@ -106,7 +106,7 @@ function Register() {
   };
 
   const handleSubmit = async (evt) => {
-    console.log("submitting");
+    console.log("submitting: ", formValues);
     evt.preventDefault();
     setSubmitting(true);
     const isValid = await validate();
@@ -246,7 +246,7 @@ function Register() {
           {errors.country && <div className="text-danger">{errors.country}</div>}
 
         </div>
-        <div className="mb-3">
+        {/* <div className="mb-3">
           <label className="form-label">Interests (choose more than one)</label>
           <div className="form-check">
             <input
@@ -308,7 +308,7 @@ function Register() {
               htmlFor="interests-others"
             >Others</label>
           </div>
-        </div>
+        </div> */}
         <button type="submit" className={"btn btn-primary " + (isSubmitting ? "d-none" : "")} disabled={isSubmitting}>Register</button>
         <div className={"spinner-border text-primary " + (isSubmitting ? "" : "d-none")} role="status">
           <span className="visually-hidden">Loading...</span>
