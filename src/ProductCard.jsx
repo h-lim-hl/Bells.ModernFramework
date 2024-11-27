@@ -1,6 +1,8 @@
 import React from "react";
+import { useCart } from "./StoreCart"
 
 const ProductCard = (prop) => {
+  const { addToCart } = useCart();
   return (
     <div className="col mb-5">
       <div className="card h-100">
@@ -20,7 +22,13 @@ const ProductCard = (prop) => {
         </div>
         {/*<!-- Product actions-->*/}
         <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-          <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#">Add to Cart</a></div>
+          <div className="text-center">
+            <a className="btn btn-outline-dark mt-auto"
+              href="#"
+              onClick={() => { addToCart(props) }}>
+              Add to Cart
+            </a>
+          </div>
         </div>
       </div>
     </div>
