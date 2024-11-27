@@ -18,9 +18,8 @@ function App() {
   const flashMessage = getMessage();
 
   useEffect(() => {
-    if(flashMessage) {
+    if(flashMessage.message) {
     const timer = setTimeout(() => {
-      console.log("timer");
       clearMessage();
     }, 3000);
 

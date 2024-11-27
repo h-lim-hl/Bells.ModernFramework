@@ -106,7 +106,7 @@ function Register() {
   };
 
   const handleSubmit = async (evt) => {
-    console.log("submitting: ", formValues);
+    // console.log("submitting: ", formValues);
     evt.preventDefault();
     setSubmitting(true);
     const isValid = await validate();
@@ -115,14 +115,14 @@ function Register() {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/api/users/register`, formValues);
         showMessage("Registration successfull", "success");
-        console.log('Form submitted successful    ly:', formValues);
+        // console.log('Form submitted successfully:', formValues);
         setLocation("/");
       } catch (error) {
         showMessage(`Error while registering: ${error.response?.data || error.message}`, "danger")
         // console.error('Error submitting form:', error.response?.data || error.message);
       } finally {
         setSubmitting(false);
-        console.log("submit end");
+        // console.log("submit end");
       }
     }
   }

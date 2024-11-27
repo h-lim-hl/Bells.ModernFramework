@@ -5,49 +5,44 @@ import axios from "axios";
 
 
 const ShoppingCart = () => {
-  const { cart, getCartTotal, modifyCart, deleteCartItem, setCartContent } = useCart();
+  const { getCart,
+    getCartTotal,
+    modifyCart,
+    deleteCartItem,
+    fetchCart,
+    isLoading,
+  } = useCart();
+
+  const cart = getCart();
+  // console.log("cart: ", cart);
+
   const { getJwt } = useJwt();
-  const [isUpdating, setIsUpdating] = useState(false);
-  const isFirstRender = useRef(true);
 
-  //console.log(cart);
-  const fetchCart = async ()=> {
-    const jwt = getJwt();
-    try {
-      const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/cart",
-        { headers: { Authorization: `Bearer ${jwt}` } }
-      );
-      console.log("Cart: ", response.data);
-      setCartContent(response.data);
-    } catch (err) {
-      console.error("Error fetching cart: ", err);
-    }
-  }
-
-  useEffect(()=>{
+  useEffect(() => {
     fetchCart();
-    return ()=>{/*console.log("cleanup")*/;}
   }, []);
 
-  const updateCart = async ()=>{
-    setIsUpdating(true);
-    const jwt = getJwt();
-    try {
-      const updatedCart = cart.map((item)=>({
-        product_id: item.product_id,
-        quantity: item.quantity
-      }));
-
-      await axios.put(import.meta.env.VITE_API_URL +"/api/cart",
-        {cartItems: updatedCart }, { headers: { Authorization: `Bearer ${jwt}`} }
-      );
-    } catch (err) {
-      console.error("Error updating cart: ", err);
-    } finally {
-      setUpdating(false);
-    }
-  };
+  const handleCheckout = async () => {
+    // const jwt = getJwt();
+    // try {
+    //     const response = await axios.post(
+    //         `${import.meta.env.VITE_API_URL}/api/checkout`,
+    //         {},
+    //         {
+    //             headers: {
+    //                 Authorization: `Bearer ${jwt}`,
+    //             },
+    //         }
+    //     );
+    //     // Redirect to Stripe Checkout
+    //     window.location.href = response.data.url;
+    // } catch (error) {
+    //     console.error("Error during checkout:", error);
+    //     alert("Checkout failed. Please try again.");
+    // } finally {
+       
+    // }
+};
 
   return (<>
     <div className="container mt-4">
@@ -68,7 +63,7 @@ const ShoppingCart = () => {
                       onClick={() => {
                         modifyCart(item.product_id, item.quantity - 1)
                       }}
-                      disabled={isUpdating}
+                      disabled={isLoading}
                     />
                     <p className="mb-0">Quantity: {item.quantity}</p>
                     <input type="button"
@@ -77,13 +72,13 @@ const ShoppingCart = () => {
                       onClick={() => {
                         modifyCart(item.product_id, item.quantity + 1)
                       }}
-                      disabled={isUpdating}
+                      disabled={isLoading}
                     />
                     <button className="btn btn-sm btn-danger ms-2"
                       onClick={() => {
                         deleteCartItem(item.product_id)
                       }}
-                      disabled={isUpdating}
+                      disabled={isLoading}
                     >Remove</button>
                   </div>
                   <span>${(item.price * item.quantity).toFixed(2)}</span>
@@ -95,7 +90,14 @@ const ShoppingCart = () => {
       </>)
       }
       <div className="mt-3 text-end">
-        <h4>Total: ${getCartTotal()}</h4>
+        <h4>Total: ${getCartTotal().toFixed(2)}</h4>
+        <button
+          className="btn btn-primary mt-2"
+          onClick={handleCheckout}
+          disabled={true}
+        >
+          {isLoading ? "Processing..." : "Proceed to Checkout"}
+        </button>
       </div>
     </div>
   </>)

@@ -1,18 +1,8 @@
 import React from "react";
 import { useCart } from "./StoreCart"
-import { useLocation } from "wouter";
-import {useFlashMessage} from "./FlashMessageStore";
 
 const ProductCard = (prop) => {
   const { addToCart } = useCart();
-  const [, setLocation] = useLocation();
-  const { showMessage } = useFlashMessage();
-
-  const handleAddToCart = () => {
-    addToCart(prop);
-    showMessage("Item added to cart", "success");
-    setLocation("/cart");
-  };
 
   return (
     <div className="col mb-5">

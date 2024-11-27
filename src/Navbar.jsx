@@ -35,11 +35,11 @@ function Navbar() {
               </Link>
             </li> */}
           </ul>
-          <a type="button" className="btn btn-outline-dark" href="/cart">
+          <Link className="btn btn-outline-dark" href="/cart">
             <i className="bi-cart-fill me-1"></i>
             Cart
             <span className="badge bg-dark text-white ms-1 rounded-pill">{(getCart() && getCart().length)?getCart().length:0}</span>
-          </a>
+          </Link>
         </div>
       </div>
     </nav>
