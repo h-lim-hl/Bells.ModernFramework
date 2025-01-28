@@ -54,16 +54,19 @@ export const useCart = () => {
   }, [cart]);
 
   const modifyCart = (product_id, quantity) => {
+    // console.log("111: ", product_id," | ", quantity);
     setCart(currentCart => {
+      // console.log("currectCart: ", currectCart);
       const existingItemIndex = currentCart.findIndex((item) => {
         return item.product_id === product_id;
       });
+      // console.log("existingItemIndex: ", existingItemIndex);
 
       if (-1 < existingItemIndex) {
         if (0 < quantity) {
           return currentCart.setIn([existingItemIndex, "quantity"], quantity);
         }
-        return currentCart.filter((item) => { item.product_id != product_id });
+        return currentCart.filter((item) => { return item.product_id != product_id });
       }
       return currentCart;
     });

@@ -120,11 +120,10 @@ function Register() {
       } catch (error) {
         showMessage(`Error while registering: ${error.response?.data || error.message}`, "danger")
         // console.error('Error submitting form:', error.response?.data || error.message);
-      } finally {
         setSubmitting(false);
-        // console.log("submit end");
       }
     }
+    setSubmitting(false);
   }
 
   return (<>
