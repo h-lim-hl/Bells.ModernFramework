@@ -51,11 +51,11 @@
 }
 
 .flash-alert {
-  animation: fadeOut 3s ease forwards;
+  animation: fadeOut 5s ease forwards;
 }
 
 @keyframes fadeOut {
   0% {opacity: 1}
-  70% { opacity: 1}
+  80% { opacity: 1}
   100% {opacity: 0}
 }

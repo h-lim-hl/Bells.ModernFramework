@@ -75,7 +75,6 @@ export const useCart = () => {
       const existingItemIndex = currentCart.findIndex(
         (item) => item.product_id === product.product_id
       );
-      console.log(existingItemIndex);
       if (existingItemIndex !== -1) {
         return currentCart.setIn(
           [existingItemIndex, "quantity"],
@@ -104,7 +103,7 @@ export const useCart = () => {
     const jwt = getJwt();
     setIsLoading(true);
     try {
-      console.log(`${import.meta.env.VITE_API_URL}/api/cart`);
+      //console.log(`${import.meta.env.VITE_API_URL}/api/cart`);
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/cart`,
         {
@@ -113,7 +112,7 @@ export const useCart = () => {
           },
         }
       )
-      console.log("22: ", response.data);
+      //console.log("22: ", response.data);
       setCart(Immutable(response.data));
     } catch (error) {
       console.error("Error fetching cart: ", error);

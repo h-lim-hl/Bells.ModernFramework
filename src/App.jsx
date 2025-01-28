@@ -1,7 +1,6 @@
-import { useEffect, useMemo} from "react";
+import { useEffect, useMemo } from "react";
 import { Route, Switch } from 'wouter';
 import { useFlashMessage } from './FlashMessageStore';
-
 import Navbar from './Navbar';
 import Footer from './Footer';
 import Home from './Home';
@@ -9,6 +8,7 @@ import Register from './Register';
 import About from './About';
 import ShoppingCart from './ShoppingCart';
 import UserLogin from "./UserLogin";
+import Checkout from "./Checkout";
 
 import './App.css'
 import './styles.css'
@@ -18,12 +18,12 @@ function App() {
   const flashMessage = getMessage();
 
   useEffect(() => {
-    if(flashMessage.message) {
-    const timer = setTimeout(() => {
-      clearMessage();
-    }, 3000);
+    if (flashMessage.message) {
+      const timer = setTimeout(() => {
+        clearMessage();
+      }, 5000);
 
-    return () => clearTimeout(timer);
+      return () => clearTimeout(timer);
     }
   }, [flashMessage]);
 
@@ -42,6 +42,7 @@ function App() {
         <Route path="/about" component={About} />
         <Route path="/cart" component={ShoppingCart} />
         <Route path="/login" component={UserLogin} />
+        <Route path="/checkout" component={Checkout} />
       </Switch>
       <Footer />
     </>

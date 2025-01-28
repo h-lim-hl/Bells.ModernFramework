@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Link, useLocation } from "wouter";
 import { useCart } from "./StoreCart";
 import { useJwt } from "./UserStore";
 import axios from "axios";
@@ -40,9 +41,9 @@ const ShoppingCart = () => {
     //     console.error("Error during checkout:", error);
     //     alert("Checkout failed. Please try again.");
     // } finally {
-       
+
     // }
-};
+  };
 
   return (<>
     <div className="container mt-4">
@@ -91,13 +92,11 @@ const ShoppingCart = () => {
       }
       <div className="mt-3 text-end">
         <h4>Total: ${getCartTotal().toFixed(2)}</h4>
-        <button
-          className="btn btn-primary mt-2"
-          onClick={handleCheckout}
-          disabled={true}
-        >
-          {isLoading ? "Processing..." : "Proceed to Checkout"}
-        </button>
+        <Link to="/checkout">
+          <button className="btn btn-primary mt-2 mb-2 active">
+            Proceed to Checkout
+          </button>
+        </Link>
       </div>
     </div>
   </>)
