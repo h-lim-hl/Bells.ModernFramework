@@ -6,10 +6,8 @@ import { Elements } from '@stripe/react-stripe-js';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE); // Replace with your Stripe public key
 
-
 import { useCart } from "./StoreCart";
 import { useJwt } from "./UserStore";
-
 
 import StripeCheckoutForm from "./StripeCheckoutForm";
 
@@ -28,35 +26,32 @@ const Checkout = () => {
   const stripeLoader = "auto";
 
   useEffect(() => {
+
     //get csrf token
-    // axios.get(
-    //   `${import.meta.env.VITE_API_URL}/api/csrf`, {withCredentials: true}
-    // ).then ((res) =>{
-    //   setCsrfToken(res.data.csrfToken);
-    // }).catch((err) => {
-    //   console.error(`Error fetching CSRF token: ${err}`);
-    // });
 
-    fetchCart();
-    // signal paymentIntent to be created and capture ClientSecret key from server. 
-    const getClientSecret = async () => {
-      try {
-        const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/checkout/paymentIntent`, {},
-          {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-            },
-          }
-        );
-        setStripeClientSecret(res.data.client_secret);
-        console.log(`print res `, res.data.client_secret);
-        console.log("stripeClientSecret ", stripeClientSecret);
-      } catch (err) {
-        console.error("Error getting paymentIntent: ", err.message);
-      }
-    };
+    // if (csrfToken && 1 < csrfToken.length) {// no token registered yet
+      fetchCart();
+      // signal paymentIntent to be created and capture ClientSecret key from server.
 
-    getClientSecret();
+      const getClientSecret = async () => {
+        try {
+          const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/checkout/paymentIntent`, {},
+            {
+              headers: {
+                Authorization: `Bearer ${jwt}`,
+                "X-CSRF-Token": csrfToken, // Send CSRF token with the request
+              },
+              withCredentials: true, // Make sure cookies are sent
+            }
+          );
+          setStripeClientSecret(res.data.client_secret);
+        } catch (err) {
+          console.error("Error getting paymentIntent: ", err.message);
+        }
+      };
+
+      getClientSecret();
+    // }
 
   }, []);
 

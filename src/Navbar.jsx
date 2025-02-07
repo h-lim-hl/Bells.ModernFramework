@@ -15,11 +15,15 @@ function Navbar() {
 
   let jwt = getJwt();
   let userName;
+  let role;
   if (jwt) { // there is a jwt unverified as fresh
     const jwtDataObj = atob(jwt.split('.')[1]);
     const { exp } = jwtDataObj;
     userName = jwtDataObj.userName;
     userName ??= "UnknowUser";
+
+    role = jwtDataObj.role;
+
     if (exp < Date.now) {
       clearJwt();
       jwt = null;
@@ -40,7 +44,12 @@ function Navbar() {
             <li className="nav-item"><Link className={`nav-link ${location === "/register" ? "active" : ""} ${jwt ? "d-none": ""}`} aria-current="page" href="/register">Register</Link></li>
             <li className="nav-item"><Link className={`nav-link ${location === "/login" ? "active" : ""} ${jwt ? "d-none": ""}`} href="/login">Login</Link></li>
             <li className="nav-item"><Link className={`nav-link ${location === "/about" ? "active" : ""}`} href="/abort">About</Link></li>
+
+            <li className="nav-item"><Link className={`nav-link ${jwt && role ? "": "d-none"}`} href="/management">Manage</Link></li>
+            {/* <li className="nav-item"><Link className={`nav-link ${jwt && role ? "": "d-none"}`} href="/logout">Logout</Link></li> */}
+
             <li className="nav-item"><Link className={`nav-link ${jwt ? "": "d-none"}`} href="/logout">Logout</Link></li>
+
           </ul>
           <Link className="btn btn-outline-dark" href="/cart">
             <i className="bi-cart-fill me-1"></i>
