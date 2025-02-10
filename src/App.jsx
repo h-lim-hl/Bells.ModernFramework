@@ -9,6 +9,7 @@ import About from './About';
 import ShoppingCart from './ShoppingCart';
 import UserLogin from "./UserLogin";
 import Checkout from "./Checkout";
+import UserLogout from "./UserLogout";
 
 import './App.css'
 import './styles.css'
@@ -43,6 +44,7 @@ function App() {
         <Route path="/cart" component={ShoppingCart} />
         <Route path="/login" component={UserLogin} />
         <Route path="/checkout" component={Checkout} />
+        <Route path="/logout" component={UserLogout} />
       </Switch>
       <Footer />
     </>
