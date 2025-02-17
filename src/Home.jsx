@@ -31,7 +31,7 @@ function Home() {
             product_id={product.id}
           />
         </div>
-      )
+      );
     }
     return productElements;
   };
