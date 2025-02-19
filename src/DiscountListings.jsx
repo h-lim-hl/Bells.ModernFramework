@@ -18,6 +18,10 @@ function UserLogin() {
     fetchDiscountListings();
   }, []);
 
+  const toggleOverlay = () => {
+
+  };
+
   const renderDiscountListings = () => {
     const discountListings = [];
     let count = 0;
@@ -28,7 +32,7 @@ function UserLogin() {
             {`Hello World ${count}`}
           </div>
           <div className="p-2 text-end">
-            <button className="btn btn-primary m-1" onClick={toggleOverlay}>
+            <button className="btn btn-primary m-1" discount_id={`${discount.discount_id}`} onClick={toggleOverlay}>
               Edit
             </button>
           </div>
