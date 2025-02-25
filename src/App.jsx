@@ -10,6 +10,7 @@ import ShoppingCart from './ShoppingCart';
 import UserLogin from "./UserLogin";
 import Checkout from "./Checkout";
 import UserLogout from "./UserLogout";
+import StockManagement from "./StockManagement";
 
 import './App.css'
 import './styles.css'
@@ -43,6 +44,7 @@ function App() {
         <Route path="/about" component={About} />
         <Route path="/cart" component={ShoppingCart} />
         <Route path="/login" component={UserLogin} />
+        <Route path="/stock" component={StockManagement} />
         <Route path="/checkout" component={Checkout} />
         <Route path="/logout" component={UserLogout} />
       </Switch>

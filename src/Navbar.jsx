@@ -8,7 +8,7 @@ function Navbar() {
   const [isShopDropdownShowing, setShowDropdownShowing] = useState(false);
   const [location] = useLocation();
   const toggleNavbar = () => setNavbarShowing(!isNavbarShowing);
-  const toggleShopDropdown = () => setShowDropdownShowing(!isShopDropdownShowing);
+  // const toggleShopDropdown = () => setShowDropdownShowing(!isShopDropdownShowing);
   const { getCart } = useCart();
 
   const { getJwt, clearJwt } = useJwt();
