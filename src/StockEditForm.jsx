@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
-// import { useLocation } from "wouter";
+import { useLocation } from "wouter";
 import { useFlashMessage } from "./FlashMessageStore";
 
 const SUPPORTED_IMG_FORMATS = ["image/jpeg", "image/png",
@@ -10,6 +10,7 @@ const SUPPORTED_IMG_FORMATS = ["image/jpeg", "image/png",
 const MAX_FILE_SIZE = 5 * 1048576; // 1048576 = 1024^2
 
 function StockEditForm(prop) {
+  const [, setLocation] = useLocation();
   const { showMessage } = useFlashMessage();
   const [imageUrl, setImageUrl] = useState("");
 
@@ -40,10 +41,10 @@ function StockEditForm(prop) {
     try {
       const response = await axios.post(import.meta.env.VITE_API_URL + "/api/product/imgUpload",
         formData, {
-          headers: {
-            "Content-Type" : "multipart/form-data"
-          }
+        headers: {
+          "Content-Type": "multipart/form-data"
         }
+      }
       );
       showMessage("Image Uploaded", "success");
       setImageUrl(response.data.imageUrl);
@@ -134,8 +135,15 @@ function StockEditForm(prop) {
         return (
           <Form>
             <div className="md-3">
+              <div>
+                <img src={imageUrl} alt="Selected Image of the product" />
+              </div>
+            </div>
+            <div className="md-3">
               <label htmlFor="imageUrl" className="form-label">Image Url</label>
-              <Field type="text" name="imageUrl" id="imageUrl" className="form-contorl" />
+              <Field type="text" name="imageUrl" id="imageUrl"
+                className="form-contorl"
+                onChange={(event) => { setImageUrl(event.target.value) }} />
               <ErrorMessage name="imageUrl" component="div" className="text-danger" />
             </div>
             <div className="md-3">
@@ -169,3 +177,5 @@ function StockEditForm(prop) {
     </Formik>
   </>);
 }
+
+export default StockEditForm;
